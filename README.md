@@ -7,7 +7,7 @@ In this repo are stored various write ups for challenges and labs that I have ei
 I have arranged them by platform below.
 
 ## TryHackMe
-- [Pickle Rick]()
+- [Pickle Rick](https://github.com/jmeliendrez/Write-Ups/blob/1a770081bbdd382450de50aec17295329cedb490/THM/pickle_rick.md)
 - [Upload Vulnerabilities Challenge]()
 
 ## Hack the Box
