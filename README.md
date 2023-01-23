@@ -8,7 +8,7 @@ I have arranged them by platform below.
 
 ## TryHackMe
 - [Pickle Rick](https://github.com/jmeliendrez/Write-Ups/blob/1a770081bbdd382450de50aec17295329cedb490/THM/pickle_rick.md)
-- [Upload Vulnerabilities Challenge]()
+- [Upload Vulnerabilities Challenge](https://github.com/jmeliendrez/Write-Ups/blob/1a770081bbdd382450de50aec17295329cedb490/THM/upload_vulns-challenge.md)
 
 ## Hack the Box
 - 
