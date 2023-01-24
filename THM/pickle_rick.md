@@ -15,4 +15,14 @@ The first phase in any web testing is recon and enumeration. We want to know wha
 
 ### Exploitation
 
-### Post-Exploitation
+### Further Research
+After I completed the room I went on YouTube and watched [**John Hammond’s** solution to the challenge](https://youtu.be/oCAtfcr3iUw). I really enjoyed watching him work through it differently. I was impressed by the fact that he made a reverse shell in the command dialogue box. I tried it out myself and was kicking myself to how easy it was moving around the file system like that. 
+
+So, back to when I first logged in to `login.php` we go need to execute a command using python3 (as python 2 does not run on the server). We also need to set up a listener on our local machine.
+
+We use `nc -lnvp 1234` to set up our listener in the terminal.
+
+Then we use [PentestMonkey's](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet#:~:text=shell%20here.-,Python,-This%20was%20tested) reverse shell script. We'll need to modify it to have our IP address and port number. We also need to make sure that we run it using python3 and not just python. Copy and paste it into the dialogue box on the webpage. Click 'Execute' and the page should just hang.
+
+Checking our listener we see that we are connected.
+
