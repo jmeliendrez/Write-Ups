@@ -12,6 +12,51 @@ At the end of the **Web Hacking Fundamentals** module in TryHackMe you are taske
 
 The first phase in any web testing is recon and enumeration. We want to know what is present on the IP provided. We assume that we'll get atleast a port 80 for HTTP on the IP in a port scan using **nmap**. We'll then need to do some recon on the web site.
 
+So, I do an `nmap` scan.
+
+<p>
+<img src="https://i.imgur.com/jVV97UN.png" height="80%" width="80%" alt=""/>
+</p>
+
+Our results show that we have both port 22 and 80 open. Port 22 is for SSH and there isn't much we can do there. I attempted an anonymous login but was refused. We also do not have enough information at this stage. As you can see, running `-sV -sC` (service scan and default scripts) gives us a little more information. We can see that a web server is running (Apache 2.4.18), our target is a Linux system (Ubuntu) and that the http-title returns, "Rick is sup4r cool". 
+
+Next I navigate to the page and find a static webpage with not much to go off. I then inspect the web page and this reveals some leaked data. We observe that a comment has been left in the HTML saying, "Note to self, remember username! Username: R1ckRul3s". Definetely something to take note of later. 
+
+<p>
+<img src="https://i.imgur.com/EQq0372.png" height="80%" width="80%" alt=""/>
+</p>
+
+This information indicates that there must be a login page somewhere. At this point I try using this username to login to SSH but this fails. I then think of running gobuster but this only leads me to the `/assets` directory which doesn't hold much.
+
+<p>
+<img src="https://i.imgur.com/koTx6Sa.png" height="80%" width="80%" alt=""/>
+</p>
+
+I then remember that nmap has a script that does http enumeration. I run this and find a couple of pages. It is at this point that I remember that gobuster has the `-x` flag to denote file types that it can search for. HTTP-enum script gives us both 'login.php' and 'robots.txt'.
+
+<p>
+<img src="https://i.imgur.com/QJhi16R.png" height="80%" width="80%" alt=""/>
+</p>
+
+I then navigate to the 'robots.txt' file and find the following.
+
+<p>
+<img src="https://i.imgur.com/lIAGa75.png" height="80%" width="80%" alt=""/>
+</p>
+
+Hmmm... no idea what that's about. If you've seen the show you know that that is what Rick says but there's indication of its significance. 
+
+I then go to the 'login.php' page. And it redirects me to 'portal.php'. As implied, we are at a login page. I put in the username and then spend some time thinking about the password. Then I think to [myself](what a wonderful world), maybe I can use the text in 'robots.txt' as a password?
+
+<p>
+<img src="https://i.imgur.com/7i5aPGR.png" height="80%" width="80%" alt=""/>
+</p>
+
+And BOOM! we're in!!! We are presented with a page that has a 'Command Panel', a dialogue box and an 'Execute' button.
+
+<p>
+<img src="https://i.imgur.com/I4UhiDj.png" height="80%" width="80%" alt=""/>
+</p>
 
 ### Exploitation
 
