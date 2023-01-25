@@ -46,7 +46,7 @@ I then navigate to the 'robots.txt' file and find the following.
 
 Hmmm... no idea what that's about. If you've seen the show you know that that is what Rick says but there's indication of its significance. 
 
-I then go to the 'login.php' page. And it redirects me to 'portal.php'. As implied, we are at a login page. I put in the username and then spend some time thinking about the password. Then I think to [myself](what a wonderful world), maybe I can use the text in 'robots.txt' as a password?
+I then go to the 'login.php' page. And it redirects me to 'portal.php'. As implied, we are at a login page. I put in the username and then spend some time thinking about the password. Then I think to myself, what a wonderful world. (nah!) I think maybe I can use the text in 'robots.txt' as a password?
 
 <p>
 <img src="https://i.imgur.com/7i5aPGR.png" height="80%" width="80%" alt=""/>
