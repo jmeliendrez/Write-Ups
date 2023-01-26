@@ -4,14 +4,8 @@ In this repo are stored various write ups for challenges and labs that I have ei
 
 # Contents
 
-I have arranged them by platform below.
+- ### [TryHackMe](https://github.com/jmeliendrez/Write-Ups/tree/main/THM)
 
-## TryHackMe
-- [Pickle Rick](https://github.com/jmeliendrez/Write-Ups/blob/main/THM/pickle_rick.md)
-- [Upload Vulnerabilities Challenge](https://github.com/jmeliendrez/Write-Ups/blob/main/THM/upload_vulns-challenge.md)
+- ### [Hack the Box](https://github.com/jmeliendrez/Write-Ups/tree/main/HTB)
 
-## Hack the Box
-- 
-
-## Capture the Flag
-- 
+- ### [Capture the Flag](https://github.com/jmeliendrez/Write-Ups/tree/main/CTF)
