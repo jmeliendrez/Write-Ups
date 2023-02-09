@@ -57,9 +57,8 @@ In the case of Precious, pdfkit has a critical vulnerability that allows an atta
 </p>
 
 
-# Foothold
+# Initial Foothold
 
-## Command Injection
 
 # Privilege Escalation
 
@@ -75,3 +74,4 @@ Referenced Walkthroughs
 Referenced Blogs:
 - https://blog.stratumsecurity.com/2021/06/09/blind-remote-code-execution-through-yaml-deserialization/
 - https://security.snyk.io/vuln/SNYK-RUBY-PDFKIT-2869795
+- https://owasp.org/Top10/A03_2021-Injection/
