@@ -114,6 +114,11 @@ Now we are able to `cat user.txt` and get the flag!!
 
 # Privilege Escalation
 
+Now that we've gained an initial foothold in the system, we want escalate our privileges. One of the first things I check is how `sudo` privileges have been confirgured. I run the `sudo -l` command, as this lists the permissions the current user has with regard to the `sudo` command.
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
 
 
 ## YAML Deserialization
