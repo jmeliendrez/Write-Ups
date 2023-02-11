@@ -120,11 +120,41 @@ Now that we've gained an initial foothold in the system, we want escalate our pr
 <img src="" height="80%" width="80%" alt=""/>
 </p>
 
+Here we see that "henry" is permitted to run `/usr/bin/ruby /opt/update_dependencies.rb` without a password. Next, I have a look at the file `update_dependencies.rb` to see what we can do in there. 
 
-## YAML Deserialization
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
 
-# Root
+The highlighted text is a vulnerable bit of code that will read `dependencies.yml` file with root permissions. This vulnerability is covered in [this blog](https://blog.stratumsecurity.com/2021/06/09/blind-remote-code-execution-through-yaml-deserialization/) if you want to read about it.
 
+I then search for a dependencies.yml file throught system but find nothing. We are then able to create one in henry's home directory and execute the sudo command listed above. What we'll want to do is make it possible for us to become root. The first time I did this I followed 0xdedinfosec's walkthrough and use his POC to then execute a `/bin/bash` shell at root and elevate privileges that way. I think this is good but a possible better way is to give henry complete sudo privileges with no need for a password. You can view copy it from the `dependencies.yml` file in this repo. But this is what it looks like:
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+After executing `sudo /usr/bin/ruby /opt/update_dependencies.rb` the updater runs and then we test out our privileges using `sudo -l`. 
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+We now have elevated privileges. Now we can become root with minimal effort: `sudo su`.
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+We go to `/root` and `cat root.txt` for our flag.
+
+<p>
+<img src="" height="80%" width="80%" alt=""/>
+</p>
+
+This machine features two vulnerabilities that when chained together can lead to pwning the box. I think the first vulnerability is pretty easy and straightforward to understand and acheive an exploit with. The second required more digging and exploration. At this point I personally don't know Ruby at all, so I needed to do a bit of reading and research into this vulnerability. There's some good documentation and research done on Ruby that I've included below if you want to know more. 
+
+To mitigate this is pretty simple but critical. Firstly, the pdf converter, pdfkit, needs to be update to the latest version. Developers also need to keep an eye out on CVEs that affect pdfkit to ensure risk mitigation. Secondly, better secure code practices need to be put in place through code review and testing. The yaml.load() function deserializes YAML into Python and can then can write, read and load any text. The risk has been shown above that this can lead to lower privileged users escalating privileges. More recent versions cannot run this function without a Loader or FullLoader essentially taking away this vulnerability. 
 
 Referenced Walkthroughs
 - https://0xdedinfosec.vercel.app/blog/hackthebox-precious-writeup
