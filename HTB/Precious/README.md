@@ -1,3 +1,8 @@
+
+<p align="center">
+<img src="https://i.imgur.com/w96rQem.png" height="80%" width="80%" alt=""/>
+</p>
+
 # Precious
 
 This Hack the Box machine includes a command injection vulnerability and a blind remote code execution using YAML deserialization. I used a couple of walkthroughs to help me through this but I'm extending the discussion below to be a bit more beginner friendly. This is to help explain a bit of the why behind techniques and why certain things done in this walkthrough work. You can view the `dependencies.yml` file as a seperate doc within this folder.
