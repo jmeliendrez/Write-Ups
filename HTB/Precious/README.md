@@ -152,6 +152,8 @@ We go to `/root` and `cat root.txt` for our flag.
 <img src="" height="80%" width="80%" alt=""/>
 </p>
 
+# Mitigation Strategies and Summary
+
 This machine features two vulnerabilities that when chained together can lead to pwning the box. I think the first vulnerability is pretty easy and straightforward to understand and acheive an exploit with. The second required more digging and exploration. At this point I personally don't know Ruby at all, so I needed to do a bit of reading and research into this vulnerability. There's some good documentation and research done on Ruby that I've included below if you want to know more. 
 
 To mitigate this is pretty simple but critical. Firstly, the pdf converter, pdfkit, needs to be update to the latest version. Developers also need to keep an eye out on CVEs that affect pdfkit to ensure risk mitigation. Secondly, better secure code practices need to be put in place through code review and testing. The yaml.load() function deserializes YAML into Python and can then can write, read and load any text. The risk has been shown above that this can lead to lower privileged users escalating privileges. More recent versions cannot run this function without a Loader or FullLoader essentially taking away this vulnerability. 
